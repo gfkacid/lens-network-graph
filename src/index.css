@@ -1,13 +1,398 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url("https://fonts.googleapis.com/css2?family=Lora&family=Public+Sans:ital@0;1&display=swap");
+
+*{
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+/**
+ * VARIABLES:
+ * **********
+ */
+:root {
+  --ruby: #e22653;
+  --grey: #999;
+  --dark-grey: #666;
+  --light-grey: #ccc;
+  --cream: #f9f7ed;
+  --transparent-white: #ffffffcc;
+  --graph-background: #131415;
+  --graph-background-transparent: rgba(19, 20, 21, 0.85);
+  --transition: all ease-out 300ms;
+  --shadow: 0 1px 5px var(--dark-grey);
+  --hover-opacity: 0.7;
+  --stage-padding: 8px;
+  --panels-width: 260px;
+  --border-radius: 3px;
+  /* light body */
+  --light-bg-01: #fafafb;
+  --light-bg-transparent: rgba(250, 250, 251, 0.85);
+  --light-text-primary-01: #1c2126;
+  --light-text-primary-02: #37434b;
+  --light-text-primary-03: #536471;
+
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/**
+ * BASE STYLES:
+ * ************
+ */
+body {
+  font-family: "Public Sans", sans-serif;
+  background: var(--graph-background);
+  color: white;
+  font-size: 0.9em;
+  overflow: hidden;
+}
+
+h1,
+h2 {
+  font-family: Lora, serif;
+}
+h2 {
+  font-size: 1.3em;
+  margin: 0;
+}
+h2 > * {
+  vertical-align: middle;
+}
+a {
+  color: black !important;
+}
+a:hover {
+  opacity: var(--hover-opacity);
+}
+
+/**
+ * LAYOUT:
+ * *******
+ */
+body {
+  margin: 0;
+  padding: 0;
+}
+header{
+  position: relative;
+  margin: 4em;
+}
+#root {
+  width: 100%;
+  max-width: 1080px;
+  height: 500px;
+  position: relative;
+}
+#app-root,
+.sigma-container {
+  position: relative;
+  inset: 0;
+  width: 100%;
+  min-height: 500px;
+  height: auto;
+}
+.controls {
+  position: absolute;
+  bottom: var(--stage-padding);
+  left: var(--stage-padding);
+}
+.panels {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 260px;
+  max-height: calc(100vh - 2 * var(--stage-padding));
+  overflow-y: auto;
+  padding: var(--stage-padding);
+  scrollbar-width: thin;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--grey);
+  border: transparent;
+}
+
+/**
+ * USEFUL CLASSES:
+ * ***************
+ */
+div.ico > button {
+  display: block;
+  position: relative;
+  font-size: 1.8em;
+  width: 2em;
+  height: 2em;
+  /* border-radius: var(--border-radius); */
+  /* box-shadow: var(--shadow); */
+  color: white;
+  background: var(--graph-background-transparent);
+  border: none;
+  outline: none;
+  margin-top: 0.2em;
+  cursor: pointer;
+}
+div.ico > button:hover {
+  background: var(--dark-grey);
+}
+div.ico > button > * {
+  position: absolute;
+  inset: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+button.btn {
+  background: var(--graph-background);
+  color: #fff;
+  border: 1px solid black;
+  outline: none;
+  border-radius: var(--border-radius);
+  padding: 0.3em 0.5em;
+  font-size: 1em;
+  font-family: Lato, sans-serif;
+  cursor: pointer;
+}
+button.btn:hover {
+  opacity: var(--hover-opacity);
+}
+button.btn > * {
+  vertical-align: middle;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+ul > li {
+  margin-top: 0.2em;
+}
+.text-muted {
+  color: var(--dark-grey);
+}
+.text-small {
+  font-size: 0.7em;
+  vertical-align: baseline;
+}
+.mouse-pointer {
+  cursor: pointer;
+}
+
+/**
+ * CAPTIONS PANELS:
+ * ****************
+ */
+.panel {
+  background: var(--graph-background-transparent);
+  padding: 1em;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+.panel:not(:last-child) {
+  margin-bottom: 0.5em;
+}
+.panel h2 button {
+  float: right;
+  background: var(--graph-background-transparent);
+  color: var(--light-grey);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1.2em;
+  height: 1em;
+  width: 1em;
+  text-align: center;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.panel h2 button:hover {
+  opacity: var(--hover-opacity);
+}
+
+.caption-row input[type="checkbox"] {
+  display: none;
+}
+.caption-row input[type="checkbox"]:not(:checked) + label {
+  color: var(--dark-grey);
+}
+.caption-row input[type="checkbox"]:not(:checked) + label .circle {
+  background-color: white !important;
+}
+.caption-row label {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+.caption-row label:hover {
+  opacity: var(--hover-opacity);
+}
+.caption-row label .circle {
+  flex-shrink: 0;
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  border-radius: 1.2em;
+  vertical-align: middle;
+  box-sizing: border-box;
+  background-color: var(--dark-grey);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-right: 0.2em;
+  transition: var(--transition);
+  border: 3px solid var(--dark-grey);
+}
+.caption-row label .node-label {
+  flex-grow: 1;
+}
+.caption-row label .bar {
+  position: relative;
+  background: transparent;
+  height: 3px;
+  margin-bottom: 0.2em;
+}
+.caption-row label .bar .inside-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--dark-grey);
+  transition: var(--transition);
+}
+
+/**
+ * SEARCH FIELD:
+ * *************
+ */
+.search-wrapper {
+  position: relative;
+}
+.search-wrapper > input[type="search"] {
+  background: var(--graph-background-transparent);
+  color: white;
+  width: calc(100%);
+  height: 3em;
+  box-shadow: var(--shadow);
+  border: none;
+  outline: none;
+  border-radius: var(--border-radius);
+  margin-bottom: 0.5em;
+  padding: 1em 1em 1em 3em;
+  font-family: Lato, sans-serif;
+  font-size: 1em;
+}
+.search-wrapper > .icon {
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  top: 1em;
+  left: 1em;
+}
+
+/**
+ * RESPONSIVENESS:
+ * ***************
+ */
+@media (max-width: 767.98px) {
+  #app-root:not(.show-contents) .contents,
+  #app-root.show-contents .controls {
+    display: none;
+  }
+
+  #app-root.show-contents .contents {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    background: var(--graph-background-transparent);
+  }
+  #app-root.show-contents .panels {
+    height: auto;
+    max-height: unset;
+    max-width: unset;
+    position: static;
+    overflow-y: visible;
+    width: auto;
+  }
+  #app-root.show-contents .contents .hide-contents {
+    position: absolute;
+    top: var(--stage-padding);
+    right: var(--stage-padding);
+    z-index: 99;
+  }
+}
+@media (min-width: 768px) {
+  button.show-contents,
+  button.hide-contents {
+    display: none !important;
+  }
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* LIGHT THEME */
+body.light-body{
+  color: var(--light-text-primary-01);
+  background: var(--light-bg-01);
+  
+}
+
+body.light-body div.ico > button{
+  color: var(--light-text-primary-01);;
+  background: var(--light-bg-transparent);
+  
+}
+
+body.light-body button.btn {
+  background: var(--light-bg-01);
+  color: var(--light-text-primary-01);
+}
+
+body.light-body .panel {
+  background: var(--light-bg-transparent);
+  
+}
+
+body.light-body .panel h2 button {
+  background: var(--light-bg-transparent);
+  color: var(--dark-grey);
+  
+}
+
+body.light-body .caption-row input[type="checkbox"]:not(:checked) + label .circle {
+  background-color: white !important;
+  
+}
+
+body.light-body .search-wrapper > input[type="search"] {
+  background: var(--light-bg-transparent);
+  color: var(--light-text-primary-01);
+}
+
+@media (max-width: 767.98px) {
+ 
+  body.light-body #app-root.show-contents .contents {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    background: var(--light-bg-transparent);
+  }
 }
